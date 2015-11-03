@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name       ShanbayAutoReader
 // @namespace  ShanbayAutoReader
-// @version    0.4.3
+// @version    0.4.4
 // @description ShanbayAutoReader
 // @match      http://shanbay.com/bdc/learnings/library/*
 // @match      http://www.shanbay.com/bdc/learnings/library/*
 // @copyright  2015 chg-hou
 // ==/UserScript==
 PAUSE_FLAG = 0;
-page_header = document.getElementsByClassName('page-header')[0]
+page_header = document.getElementsByClassName('nav nav-pills')[0];
 
 new_play_button = '<button id="playbutton" type="button" onclick=\'if(PAUSE_FLAG>0){PAUSE_FLAG=0;}else{PAUSE_FLAG=1; }\'>Play/Pause</button>'
 //document.getElementById("playbutton").textContent
