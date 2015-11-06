@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       ShanbayAutoReader
 // @namespace  ShanbayAutoReader
-// @version    0.4.4
+// @version    0.4.5
 // @description ShanbayAutoReader
 // @match      http://shanbay.com/bdc/learnings/library/*
 // @match      http://www.shanbay.com/bdc/learnings/library/*
@@ -95,7 +95,8 @@ function play_en_audio()
     /*words = document.querySelectorAll('div.learning');
 	word = words[0];*/
     word_info = word.getElementsByClassName('wordinfo')[0];
-    audio_url_1 = word_info.getAttribute('us_audio');
+    word_info.querySelector('i.icon-volume-off').click();
+    audio_url_1 = word_info.getAttribute('audio_0');
     word_str = word.getElementsByClassName('word')[0].textContent;
     definition = word.getElementsByClassName('definition')[0].textContent;
     //chinese_audio = definition.match(/([\u4e00-\u9fa5]+,,)+[\u4e00-\u9fa5]+/g);
@@ -105,12 +106,12 @@ function play_en_audio()
     if(  chinese_audio == null){chinese_audio = definition.match(/[\u4e00-\u9fa5]+/g)[0];}
     else{chinese_audio=chinese_audio[0];}
     //audio_url_2 = 'http://translate.google.com/translate_tts?tl=zh&q='+encodeURIComponent(chinese_audio);
-
+    /* 
     soundManager.createSound({
         id: word_str,
         url: audio_url_1
     }).play();
-
+    */
 }
 function play_cn_audio()
 {
