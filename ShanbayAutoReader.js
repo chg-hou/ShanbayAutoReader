@@ -1,22 +1,24 @@
 // ==UserScript==
-// @name       ShanbayAutoReader
-// @namespace  ShanbayAutoReader
-// @version    0.4.5
-// @description ShanbayAutoReader
-// @match      http://shanbay.com/bdc/learnings/library/*
-// @match      http://www.shanbay.com/bdc/learnings/library/*
-// @copyright  2015 chg-hou
+// @name       Shanbay Auto Reader
+// @namespace  Shanbay Auto Reader
+// @version    0.4.6
+// @description Shanbay Auto Reader
+// @match      https://shanbay.com/bdc/learnings/library/*
+// @match      https://www.shanbay.com/bdc/learnings/library/*
+// @copyright  2017 chg-hou
+// @run-at       document-idle
 // ==/UserScript==
+console.log("aaaaaaaaaaaaaa");
 PAUSE_FLAG = 0;
-page_header = document.getElementsByClassName('nav nav-pills')[0];
+page_header = document.getElementsByClassName('nav nav-horizon nav-tabs')[0];
 
-new_play_button = '<button id="playbutton" type="button" onclick=\'if(PAUSE_FLAG>0){PAUSE_FLAG=0;}else{PAUSE_FLAG=1; }\'>Play/Pause</button>'
+new_play_button = '<button id="playbutton" type="button" onclick=\'if(PAUSE_FLAG>0){PAUSE_FLAG=0;}else{PAUSE_FLAG=1; }\'>Play/Pause</button>';
 //document.getElementById("playbutton").textContent
 
 switch_button = "<div>\
 <input type='checkbox' id='switch2' name='switch2' class='switch' checked='checked' onclick=\'if(PAUSE_FLAG>0){PAUSE_FLAG=0;}else{PAUSE_FLAG=1; }\' />\
 <label for='switch2'>Auto play</label>\
-</div>"
+</div>";
 
 switch_css = "input.switch:empty\
 {\
@@ -73,7 +75,7 @@ background-color: #393;\
 input.switch:checked ~ label:after\
 {\
 margin-left: 2.1em;\
-}"
+}";
 
 function addGlobalStyle(css) {
     var head, style;
@@ -103,10 +105,10 @@ function play_en_audio()
     // chinese_audio = definition.match(/([\u4e00-\u9fa5]+\.\.\.)+[\u4e00-\u9fa5]+/g);
     //chinese_audio = definition.match(/[\u4e00-\u9fa5\.]{2,}/g);
     chinese_audio = definition.match(/[\u4e00-\u9fa5\.、)]{2,}/g);
-    if(  chinese_audio == null){chinese_audio = definition.match(/[\u4e00-\u9fa5]+/g)[0];}
+    if(  chinese_audio === null){chinese_audio = definition.match(/[\u4e00-\u9fa5]+/g)[0];}
     else{chinese_audio=chinese_audio[0];}
     //audio_url_2 = 'http://translate.google.com/translate_tts?tl=zh&q='+encodeURIComponent(chinese_audio);
-    /* 
+    /*
     soundManager.createSound({
         id: word_str,
         url: audio_url_1
@@ -122,10 +124,13 @@ function play_cn_audio()
     var ssu = new SpeechSynthesisUtterance();
     ssu.text = chinese_audio;
     ssu.lang= 'zh-CN';
-    speechSynthesis.speak(ssu)
+    // ssu.voiceURI = "Google 普通话（中国大陆）";
+    //  ssu.rate = 2;
+    //   ssu.pitch = 2;
+    speechSynthesis.speak(ssu);
 }
 function speak_words()
-{    
+{
     if (PAUSE_FLAG>0)
     {
         setTimeout(speak_words , 1000);
@@ -138,8 +143,12 @@ function speak_words()
     }
 
     span_pronunciations = document.querySelectorAll('span.pronunciation');
+    //    [].forEach.call(span_pronunciations, function(span_pronunciations){
+    //        span_pronunciations.setAttribute('onclick',"jQuery(this).parent().parent().remove()");
+    //    });
+
     [].forEach.call(span_pronunciations, function(span_pronunciations){
-        span_pronunciations.setAttribute('onclick',"jQuery(this).parent().parent().remove()");
+        span_pronunciations.setAttribute('onclick',"jQuery(this).parent().parent().parent().remove()");
     });
 
     span_words = document.querySelectorAll('span.word');
@@ -154,13 +163,13 @@ function speak_words()
     }
     words_counter = Math.floor(Math.random() * words.length);
     word = words[words_counter];
-    
+
     word_str = word.getElementsByClassName('word')[0].textContent;
     pronunciation = word.getElementsByClassName('pronunciation')[0].textContent;
     definition = word.getElementsByClassName('definition')[0].textContent;
-    
+
     document.title = word_str + definition ;//+ pronunciation + definition;
-    
+
     word_parent = word.parentNode;
     word_parent.removeChild(word);
     word_parent.insertBefore(word,word_parent.children[0]);
